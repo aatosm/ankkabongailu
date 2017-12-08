@@ -1,0 +1,31 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>AnkkaBongaus</title>
+
+	<script
+	src="https://code.jquery.com/jquery-3.2.1.js"
+	integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+	crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<h1>AnkkaBongaus</h1>
+	<ul id="sightings">
+	</ul>
+
+	<form method="POST", action="/server.js">
+		<label for="species">Species: </label>
+		<input type="text" name="species"><br>
+		<label for="desc">Description: </label>
+		<input type="text" name="desc"><br>
+		<label for="count">Count: </label>
+		<input type="text" name="count"><br>
+		<input type="submit" value="Submit">
+	
+
+	<script src="/js/script.js"></script> 
+</body>
+</html>
