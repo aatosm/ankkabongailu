@@ -7,7 +7,8 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      sightings: []
+      sightings: [],
+      species: []
     }
   }
 
@@ -17,6 +18,13 @@ class App extends Component {
       .then(data => 
         this.setState({
           sightings: data
+        }))
+
+    fetch('http://localhost:8081/species')
+      .then(data => data.json())
+      .then(data => 
+        this.setState({
+          species: data
         }))
   }
 
@@ -40,7 +48,7 @@ class App extends Component {
       <div className="App">
         <h1>AnkkaBongailu</h1>
         <ListAll sightings={this.state.sightings} />
-        <AddNew addSighting={this.handleAddSighting.bind(this)} />
+        <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />
       </div>
     );
   }

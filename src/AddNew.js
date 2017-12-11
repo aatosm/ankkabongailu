@@ -10,6 +10,7 @@ class AddNew extends Component {
 	}
 
 	handleSubmit(event){
+
 		let timeStamp = new Date();
 		timeStamp = timeStamp.toISOString();
 		this.setState({newSighting: {
@@ -21,17 +22,25 @@ class AddNew extends Component {
 		}}, function(){
 			this.props.addSighting(this.state.newSighting);
 		});
+    this.refs.form.reset();
 		event.preventDefault();
 	}
 
   render() {
+
+    let speciesOptions = this.props.species.map(specObj => {
+      return <option key={specObj.name}>{specObj.name}</option>
+    });
+
     return (
       <div>
       	<h3>Add Sighting</h3>
-      	<form onSubmit={this.handleSubmit.bind(this)}>
+      	<form onSubmit={this.handleSubmit.bind(this)} ref="form">
       		<div>
       			<label>Species:</label><br />
-      			<input type="text" ref="species" />
+      			<select ref="species">
+              {speciesOptions}
+            </select>
     			</div>
     			<div>
       			<label>Description:</label><br />
