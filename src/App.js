@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ListAll from './ListAll';
-import AddNew from './AddNew';
+import ListAll from './components/ListAll';
+import AddNew from './components/AddNew';
 
 class App extends Component {
 
