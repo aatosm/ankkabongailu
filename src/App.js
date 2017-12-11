@@ -21,7 +21,15 @@ class App extends Component {
   }
 
   handleAddSighting(sighting){
-    console.log(sighting);
+    fetch('http://localhost:8081/sightings', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sighting)
+    })
+
     let sightings = this.state.sightings;
     sightings.push(sighting);
     this.setState({sightings: sightings});
