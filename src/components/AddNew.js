@@ -9,20 +9,44 @@ class AddNew extends Component {
 		}
 	}
 
+  isValid(){
+    let regex=/^[0-9]+$/;
+    if (!this.refs.count.value.match(regex))
+    {
+        return false;
+    }
+    return true;
+  }
+
 	handleSubmit(event){
 
-		let timeStamp = new Date();
-		timeStamp = timeStamp.toISOString();
-		this.setState({newSighting: {
-			id: null,
-			species: this.refs.species.value,
-			description: this.refs.desc.value,
-			dateTime: timeStamp,
-			count: this.refs.count.value
-		}}, function(){
-			this.props.addSighting(this.state.newSighting);
-		});
-    this.refs.form.reset();
+    if(this.isValid()){
+
+      let countNum = Number(this.refs.count.value);
+
+      if(countNum > 0){
+        let timeStamp = new Date();
+        timeStamp = timeStamp.toISOString();
+        this.setState({newSighting: {
+          id: null,
+          species: this.refs.species.value,
+          description: this.refs.desc.value,
+          dateTime: timeStamp,
+          count: countNum
+        }}, function(){
+          this.props.addSighting(this.state.newSighting);
+        });
+        this.refs.form.reset();
+      }
+      else {
+        alert("Count cannot be zero!");
+      }
+
+    }
+    else {
+      alert("Count must be a number bigger than zero!");
+    }
+    
 		event.preventDefault();
 	}
 

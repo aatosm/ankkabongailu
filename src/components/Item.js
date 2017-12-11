@@ -5,7 +5,9 @@ class Item extends Component {
   render() {
     return (
       <li>
-        species: {this.props.item.species}, count: {this.props.item.count}
+        Species: {this.props.item.species}<br />
+        Description: {this.props.item.description}<br />
+        count: {this.props.item.count}
       </li>
     );
   }
