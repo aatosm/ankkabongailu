@@ -10,11 +10,49 @@ class App extends Component {
     super()
     this.state = {
       sightings: [],
-      species: []
+      species: [],
+      listDescending: true
     }
   }
 
-  componentWillMount(){
+  ascendingOrder(sighting1, sighting2){
+    let dateObj1 = new Date(sighting1.dateTime)
+    let dateObj2 = new Date(sighting2.dateTime)
+    if(dateObj1 > dateObj2) return 1;
+    if(dateObj1 < dateObj2) return -1;
+    return 0;
+  }
+
+  descendingOrder(sighting1, sighting2){
+    let dateObj1 = new Date(sighting1.dateTime)
+    let dateObj2 = new Date(sighting2.dateTime)
+    if(dateObj1 > dateObj2) return -1;
+    if(dateObj1 < dateObj2) return 1;
+    return 0;
+  }
+
+  sortDates(){
+    if(this.state.listDescending){
+      let list = this.state.sightings;
+      list.sort(this.ascendingOrder);
+      let newOrder = this.state.listDescending;
+      newOrder = false;
+      this.setState({sightings: list,
+                    listDescending: newOrder
+                    });
+    }
+    else {
+      let list = this.state.sightings;
+      list.sort(this.descendingOrder);
+      let newOrder = this.state.listDescending;
+      newOrder = true;
+      this.setState({sightings: list,
+                    listDescending: newOrder
+                    });
+    }
+  }
+
+  componentDidMount(){
     fetch('http://localhost:8081/sightings')
       .then(data => data.json())
       .then(data =>
@@ -28,6 +66,7 @@ class App extends Component {
         this.setState({
           species: data
         }))
+
   }
 
   handleAddSighting(sighting){
@@ -43,9 +82,13 @@ class App extends Component {
     let sightings = this.state.sightings;
     sightings.push(sighting);
     this.setState({sightings: sightings});
+
+    this.sortDates();
+    this.sortDates();
   }
 
   render() {
+
     return (
       <div className="App">
         <Grid>
@@ -55,7 +98,7 @@ class App extends Component {
           <Row>
             <Col md={6}>
               <ListAll sightings={this.state.sightings} />
-            <RadioButtons />
+            <RadioButtons changeOrder={this.sortDates.bind(this)} />
             </Col>
             <Col md={6}>
               <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />

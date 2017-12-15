@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 class AddNew extends Component {
 
@@ -62,7 +62,7 @@ class AddNew extends Component {
 
     return (
       <div>
-      	<h3>Add Sighting</h3>
+      	<h3 className="text-center">Add Sighting</h3>
       	<form onSubmit={this.handleSubmit} ref="form">
       		<FormGroup>
       			<ControlLabel>Select species</ControlLabel>

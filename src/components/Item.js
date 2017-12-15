@@ -7,7 +7,8 @@ class Item extends Component {
     return (
       <ListGroupItem header={this.props.item.species} >
         Description: {this.props.item.description}<br />
-        Count: <b>{this.props.item.count}</b>
+        Count: <b>{this.props.item.count}</b><br />
+        Time: {this.props.item.dateTime}
       </ListGroupItem>
     );
   }
