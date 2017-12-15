@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 class AddNew extends Component {
 
 	constructor(){
 		super();
+		this.handleSubmit = this.handleSubmit.bind(this);
 		this.state = {
 			newSighting: {}
 		}
@@ -11,7 +13,7 @@ class AddNew extends Component {
 
   isValid(){
     let regex=/^[0-9]+$/;
-    if (!this.refs.count.value.match(regex))
+    if (!this.inputCount.value.match(regex))
     {
         return false;
     }
@@ -20,17 +22,20 @@ class AddNew extends Component {
 
 	handleSubmit(event){
 
+		event.preventDefault();
+		//console.log(this.refs.count.value);
+
     if(this.isValid()){
 
-      let countNum = Number(this.refs.count.value);
+      let countNum = Number(this.inputCount.value);
 
       if(countNum > 0){
         let timeStamp = new Date();
         timeStamp = timeStamp.toISOString();
         this.setState({newSighting: {
           id: null,
-          species: this.refs.species.value,
-          description: this.refs.desc.value,
+          species: this.inputSpec.value,
+          description: this.inputDesc.value,
           dateTime: timeStamp,
           count: countNum
         }}, function(){
@@ -46,8 +51,7 @@ class AddNew extends Component {
     else {
       alert("Count must be a number bigger than zero!");
     }
-    
-		event.preventDefault();
+
 	}
 
   render() {
@@ -59,22 +63,36 @@ class AddNew extends Component {
     return (
       <div>
       	<h3>Add Sighting</h3>
-      	<form onSubmit={this.handleSubmit.bind(this)} ref="form">
-      		<div>
-      			<label>Species:</label><br />
-      			<select ref="species">
-              {speciesOptions}
-            </select>
-    			</div>
-    			<div>
-      			<label>Description:</label><br />
-      			<input type="text" ref="desc" />
-    			</div>
-      		<div>
-      			<label>Count:</label><br />
-      			<input type="text" ref="count" />
-    			</div>
-    			<input type="submit" value="Submit" /> 
+      	<form onSubmit={this.handleSubmit} ref="form">
+      		<FormGroup>
+      			<ControlLabel>Select species</ControlLabel>
+						<FormControl componentClass="select"
+						inputRef={(input) => this.inputSpec = input}>
+
+							{speciesOptions}
+            </FormControl>
+    			</FormGroup>
+    			<FormGroup>
+      			<ControlLabel>Description</ControlLabel>
+						<FormControl
+							componentClass="textarea"
+							placeholder="Give a short description"
+      				type="text"
+							inputRef={(input) => this.inputDesc = input}
+						/>
+    			</FormGroup>
+      		<FormGroup>
+      			<ControlLabel>Count</ControlLabel>
+						<FormControl
+							componentClass="input"
+      				type="text"
+							inputRef={(input) => this.inputCount = input}
+							placeholder="How many did you see?"
+						/>
+    			</FormGroup>
+					<Button className="btn btn-primary" type="submit">
+      			Submit
+    			</Button>
       	</form>
       </div>
     );

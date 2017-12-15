@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { ListGroupItem } from 'react-bootstrap';
 
 class Item extends Component {
-  
+
   render() {
     return (
-      <li>
-        Species: {this.props.item.species}<br />
+      <ListGroupItem header={this.props.item.species} >
         Description: {this.props.item.description}<br />
-        count: {this.props.item.count}
-      </li>
+        Count: <b>{this.props.item.count}</b>
+      </ListGroupItem>
     );
   }
 }

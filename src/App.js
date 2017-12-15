@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ListAll from './components/ListAll';
 import AddNew from './components/AddNew';
+import RadioButtons from './components/RadioButtons';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 class App extends Component {
 
@@ -15,14 +17,14 @@ class App extends Component {
   componentWillMount(){
     fetch('http://localhost:8081/sightings')
       .then(data => data.json())
-      .then(data => 
+      .then(data =>
         this.setState({
           sightings: data
         }))
 
     fetch('http://localhost:8081/species')
       .then(data => data.json())
-      .then(data => 
+      .then(data =>
         this.setState({
           species: data
         }))
@@ -46,9 +48,21 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>AnkkaBongailu</h1>
-        <ListAll sightings={this.state.sightings} />
-        <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />
+        <Grid>
+          <Row className="titleRow text-center">
+            <Col md={12}><h1>AnkkaBongailu</h1></Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <ListAll sightings={this.state.sightings} />
+            <RadioButtons />
+            </Col>
+            <Col md={6}>
+              <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />
+            </Col>
+          </Row>
+        </Grid>
+
       </div>
     );
   }
