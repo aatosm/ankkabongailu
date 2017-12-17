@@ -8,7 +8,8 @@ class ListAll extends Component {
 
     let divStyle = {
       height: 400,
-      border: '1px solid black',
+      border: '1px solid #e6e6e6',
+      borderRadius: '5px',
       overflowY: 'scroll'
     };
 

@@ -109,10 +109,10 @@ class App extends Component {
           </Row>
           <Row>
             <Col md={6}>
-              <ListAll sightings={this.state.sightings} />
+              <ListAll sightings={this.state.sightings} /><br/>
               <RadioButtons changeOrder={this.changeListOrder.bind(this)} />
             </Col>
-            <Col md={6}>
+            <Col md={4} mdOffset={1}>
               <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />
             </Col>
           </Row>

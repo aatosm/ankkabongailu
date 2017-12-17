@@ -60,6 +60,11 @@ class AddNew extends Component {
       return <option key={specObj.name}>{specObj.name}</option>
     });
 
+		let textAreaStyle = {
+			height: 100,
+			resize: "none"
+		};
+
     return (
       <div>
       	<h3 className="text-center">Add Sighting</h3>
@@ -68,14 +73,14 @@ class AddNew extends Component {
       			<ControlLabel>Select species</ControlLabel>
 						<FormControl componentClass="select"
 						inputRef={(input) => this.inputSpec = input}>
-
 							{speciesOptions}
             </FormControl>
     			</FormGroup>
-    			<FormGroup>
+    			<FormGroup >
       			<ControlLabel>Description</ControlLabel>
 						<FormControl
 							componentClass="textarea"
+							style={textAreaStyle}
 							placeholder="Give a short description"
       				type="text"
 							inputRef={(input) => this.inputDesc = input}
