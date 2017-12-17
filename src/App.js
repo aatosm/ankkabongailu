@@ -31,10 +31,24 @@ class App extends Component {
     return 0;
   }
 
-  sortDates(){
-    if(this.state.listDescending){
+  //sortDates(data){
+  initListDescending(data){
+    return data.sort(this.descendingOrder);
+  }
+
+  sortListWhenAddedNew(data){
+    if(this.state.listDescending === true){
+      return data.sort(this.descendingOrder);
+    } else {
+      return data.sort(this.ascendingOrder);
+    }
+
+  }
+
+  changeListOrder(){
+    if(this.state.listDescending === true){
       let list = this.state.sightings;
-      list.sort(this.ascendingOrder);
+      list = list.sort(this.ascendingOrder);
       let newOrder = this.state.listDescending;
       newOrder = false;
       this.setState({sightings: list,
@@ -43,7 +57,7 @@ class App extends Component {
     }
     else {
       let list = this.state.sightings;
-      list.sort(this.descendingOrder);
+      list = list.sort(this.descendingOrder);
       let newOrder = this.state.listDescending;
       newOrder = true;
       this.setState({sightings: list,
@@ -55,18 +69,18 @@ class App extends Component {
   componentDidMount(){
     fetch('http://localhost:8081/sightings')
       .then(data => data.json())
+      .then(data => this.initListDescending(data))
       .then(data =>
         this.setState({
           sightings: data
-        }))
+        }));
 
     fetch('http://localhost:8081/species')
       .then(data => data.json())
       .then(data =>
         this.setState({
           species: data
-        }))
-
+        }));
   }
 
   handleAddSighting(sighting){
@@ -81,10 +95,8 @@ class App extends Component {
 
     let sightings = this.state.sightings;
     sightings.push(sighting);
-    this.setState({sightings: sightings});
-
-    this.sortDates();
-    this.sortDates();
+    let sortedSightings = this.sortListWhenAddedNew(sightings);
+    this.setState({sightings: sortedSightings});
   }
 
   render() {
@@ -98,7 +110,7 @@ class App extends Component {
           <Row>
             <Col md={6}>
               <ListAll sightings={this.state.sightings} />
-            <RadioButtons changeOrder={this.sortDates.bind(this)} />
+              <RadioButtons changeOrder={this.changeListOrder.bind(this)} />
             </Col>
             <Col md={6}>
               <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />
