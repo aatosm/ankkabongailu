@@ -1,3 +1,5 @@
-## ankkaBongailu
+## AnkkaBongailu
 
-### Simple React.js app made with create-react-app
+### Simple front-end application
+
+#### Tools used: ReactJS (create-react-app), react-bootstrap
