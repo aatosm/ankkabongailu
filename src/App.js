@@ -12,9 +12,12 @@ class App extends Component {
     this.state = {
       sightings: [],
       species: [],
-      listDescending: true
+      selected: 0
     }
+    this.handleAddSighting  = this.handleAddSighting.bind(this);
+    this.changeListOrder = this.changeListOrder.bind(this);
   }
+
 
   ascendingOrder(sighting1, sighting2){
     let dateObj1 = new Date(sighting1.dateTime)
@@ -34,68 +37,55 @@ class App extends Component {
   }
 
 
-  initListDescending(data){
-    return data.sort(this.descendingOrder);
-  }
-
-
-  sortListWhenAddedNew(data){
-    if(this.state.listDescending === true){
+  sortList(data){
+    if(this.state.selected == 0){
       return data.sort(this.descendingOrder);
     } else {
       return data.sort(this.ascendingOrder);
     }
-
   }
 
 
-  changeListOrder(){
-    if(this.state.listDescending === true){
-      let list = this.state.sightings;
-      list = list.sort(this.ascendingOrder);
-      let newOrder = this.state.listDescending;
-      newOrder = false;
-      this.setState({sightings: list,
-                    listDescending: newOrder
-                    });
+  changeListOrder(option){
+    let list = this.state.sightings;
+    if(option == 0){
+      list = list.sort(this.descendingOrder);
     }
     else {
-      let list = this.state.sightings;
-      list = list.sort(this.descendingOrder);
-      let newOrder = this.state.listDescending;
-      newOrder = true;
-      this.setState({sightings: list,
-                    listDescending: newOrder
-                    });
+      list = list.sort(this.ascendingOrder);
     }
+
+    this.setState({
+      sightings: list,
+      selected: option
+    });
   }
 
 
   componentDidMount(){
     axios.get(this.props.sightingsUrl)
-      .then(res => this.initListDescending(res.data))
+      .then(res => this.sortList(res.data))
       .then(res => this.setState({
         sightings: res
-      }));
+      }))
 
     axios.get(this.props.speciesUrl)
       .then(res =>
         this.setState({
           species: res.data
         })
-      );
+      )
   }
 
 
   handleAddSighting(sighting){
-    axios.post(this.props.sightingsUrl, sighting);
-
-    let sightings = this.state.sightings;
-    sightings.push(sighting);
-    let sortedSightings = this.sortListWhenAddedNew(sightings);
-    this.setState({sightings: sortedSightings});
-
-    console.log(this.state.sightings);
+    axios.post(this.props.sightingsUrl, sighting)
+      .then(res =>
+        axios.get(this.props.sightingsUrl)
+          .then(res => this.sortList(res.data))
+          .then(res => this.setState({
+            sightings: res
+          })))
   }
 
 
@@ -110,10 +100,10 @@ class App extends Component {
           <Row>
             <Col md={6}>
               <ListAll sightings={this.state.sightings} /><br/>
-              <RadioButtons changeOrder={this.changeListOrder.bind(this)} />
+              <RadioButtons changeOrder={this.changeListOrder} selectedOption={this.state.selected} />
             </Col>
             <Col md={4} mdOffset={1}>
-              <AddNew addSighting={this.handleAddSighting.bind(this)} species={this.state.species} />
+              <AddNew addSighting={this.handleAddSighting} species={this.state.species} />
             </Col>
           </Row>
         </Grid>
