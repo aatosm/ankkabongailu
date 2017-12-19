@@ -15,12 +15,12 @@ class ListAll extends Component {
 
   	let items;
   	if(this.props.sightings){
-  		items = this.props.sightings.map(item => {
-  			return (
-  				<Item key={item.dateTime} item={item} />
-			);
-  		});
-  	}
+      items = this.props.sightings.map(item => {
+        return (
+  		    <Item key={item.dateTime} item={item} />
+			  );
+  	  });
+	  }
 
     return (
       <div>

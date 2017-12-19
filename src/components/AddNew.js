@@ -66,40 +66,40 @@ class AddNew extends Component {
 		};
 
     return (
-      <div>
-      	<h3 className="text-center">Add Sighting</h3>
-      	<form onSubmit={this.handleSubmit} ref="form">
-      		<FormGroup>
-      			<ControlLabel>Select species</ControlLabel>
+	    <div>
+	    	<h3 className="text-center">Add Sighting</h3>
+	    	<form onSubmit={this.handleSubmit} ref="form">
+    			<FormGroup>
+    				<ControlLabel>Select species</ControlLabel>
 						<FormControl componentClass="select"
 						inputRef={(input) => this.inputSpec = input}>
 							{speciesOptions}
-            </FormControl>
-    			</FormGroup>
-    			<FormGroup >
-      			<ControlLabel>Description</ControlLabel>
+          	</FormControl>
+  				</FormGroup>
+  				<FormGroup >
+    				<ControlLabel>Description</ControlLabel>
 						<FormControl
 							componentClass="textarea"
 							style={textAreaStyle}
 							placeholder="Give a short description"
-      				type="text"
+    					type="text"
 							inputRef={(input) => this.inputDesc = input}
-						/>
-    			</FormGroup>
-      		<FormGroup>
-      			<ControlLabel>Count</ControlLabel>
+							/>
+  				</FormGroup>
+  				<FormGroup>
+    				<ControlLabel>Count</ControlLabel>
 						<FormControl
 							componentClass="input"
-      				type="text"
+    					type="text"
 							inputRef={(input) => this.inputCount = input}
 							placeholder="How many did you see?"
 						/>
-    			</FormGroup>
+					</FormGroup>
 					<Button className="btn btn-primary" type="submit">
-      			Submit
-    			</Button>
-      	</form>
-      </div>
+    				Submit
+  				</Button>
+    		</form>
+    	</div>
     );
   }
 }

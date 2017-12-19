@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 
 ReactDOM.render(
-	<App />,
+	<App
+	sightingsUrl='http://localhost:8081/sightings'
+	speciesUrl='http://localhost:8081/species'
+	pollInterval={2000}/>,
  	document.getElementById('root')
  	);

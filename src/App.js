@@ -3,6 +3,7 @@ import ListAll from './components/ListAll';
 import AddNew from './components/AddNew';
 import RadioButtons from './components/RadioButtons';
 import { Grid, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 
 class App extends Component {
 
@@ -23,6 +24,7 @@ class App extends Component {
     return 0;
   }
 
+
   descendingOrder(sighting1, sighting2){
     let dateObj1 = new Date(sighting1.dateTime)
     let dateObj2 = new Date(sighting2.dateTime)
@@ -31,10 +33,11 @@ class App extends Component {
     return 0;
   }
 
-  //sortDates(data){
+
   initListDescending(data){
     return data.sort(this.descendingOrder);
   }
+
 
   sortListWhenAddedNew(data){
     if(this.state.listDescending === true){
@@ -44,6 +47,7 @@ class App extends Component {
     }
 
   }
+
 
   changeListOrder(){
     if(this.state.listDescending === true){
@@ -66,38 +70,34 @@ class App extends Component {
     }
   }
 
-  componentDidMount(){
-    fetch('http://localhost:8081/sightings')
-      .then(data => data.json())
-      .then(data => this.initListDescending(data))
-      .then(data =>
-        this.setState({
-          sightings: data
-        }));
 
-    fetch('http://localhost:8081/species')
-      .then(data => data.json())
-      .then(data =>
+  componentDidMount(){
+    axios.get(this.props.sightingsUrl)
+      .then(res => this.initListDescending(res.data))
+      .then(res => this.setState({
+        sightings: res
+      }));
+
+    axios.get(this.props.speciesUrl)
+      .then(res =>
         this.setState({
-          species: data
-        }));
+          species: res.data
+        })
+      );
   }
 
+
   handleAddSighting(sighting){
-    fetch('http://localhost:8081/sightings', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(sighting)
-    })
+    axios.post(this.props.sightingsUrl, sighting);
 
     let sightings = this.state.sightings;
     sightings.push(sighting);
     let sortedSightings = this.sortListWhenAddedNew(sightings);
     this.setState({sightings: sortedSightings});
+
+    console.log(this.state.sightings);
   }
+
 
   render() {
 
