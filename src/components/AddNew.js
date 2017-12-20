@@ -95,7 +95,7 @@ class AddNew extends Component {
 							placeholder="How many did you see?"
 						/>
 					</FormGroup>
-					<Button bsStyle="primary" type="submit">
+					<Button bsStyle="info" type="submit">
     				Submit
   				</Button>
     		</form>

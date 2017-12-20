@@ -62,13 +62,17 @@ class App extends Component {
   }
 
 
-  componentDidMount(){
+  loadSightingsFromServer(){
     axios.get(this.props.sightingsUrl)
       .then(res => this.sortList(res.data))
       .then(res => this.setState({
         sightings: res
       }))
+  }
 
+
+  componentDidMount(){
+    this.loadSightingsFromServer();
     axios.get(this.props.speciesUrl)
       .then(res =>
         this.setState({
@@ -80,35 +84,34 @@ class App extends Component {
 
   handleAddSighting(sighting){
     axios.post(this.props.sightingsUrl, sighting)
-      .then(res =>
-        axios.get(this.props.sightingsUrl)
-          .then(res => this.sortList(res.data))
-          .then(res => this.setState({
-            sightings: res
-          })))
+      .then(res => this.loadSightingsFromServer())
+
   }
 
 
   render() {
 
-    return (
-      <div className="App">
-        <Grid>
-          <Row className="titleRow text-center">
-            <Col md={12}><h1>AnkkaBongailu</h1></Col>
-          </Row>
-          <Row>
-            <Col md={6}>
-              <ListAll sightings={this.state.sightings} /><br/>
-              <RadioButtons changeOrder={this.changeListOrder} selectedOption={this.state.selected} />
-            </Col>
-            <Col md={4} mdOffset={1}>
-              <AddNew addSighting={this.handleAddSighting} species={this.state.species} />
-            </Col>
-          </Row>
-        </Grid>
+    let headerStyle = {
+      color: "#EF5E00"
+    }
 
-      </div>
+    return (
+
+      <Grid>
+        <Row className="titleRow text-center">
+          <Col md={12}><h1 style={headerStyle}>AnkkaBongailu</h1></Col>
+        </Row>
+        <Row>
+          <Col md={6}>
+            <ListAll sightings={this.state.sightings} /><br/>
+            <RadioButtons changeOrder={this.changeListOrder} selectedOption={this.state.selected} />
+          </Col>
+          <Col md={4} mdOffset={1}>
+            <AddNew addSighting={this.handleAddSighting} species={this.state.species} />
+          </Col>
+        </Row>
+      </Grid>
+
     );
   }
 }
