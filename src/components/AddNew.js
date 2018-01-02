@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import style from '../styles'
 
 class AddNew extends Component {
 
@@ -11,6 +12,7 @@ class AddNew extends Component {
 		}
 	}
 
+
   isValid(){
     let regex=/^[0-9]+$/;
     if (!this.inputCount.value.match(regex))
@@ -20,13 +22,11 @@ class AddNew extends Component {
     return true;
   }
 
-	handleSubmit(event){
 
+	handleSubmit(event){
 		event.preventDefault();
-		//console.log(this.refs.count.value);
 
     if(this.isValid()){
-
       let countNum = Number(this.inputCount.value);
 
       if(countNum > 0){
@@ -43,6 +43,7 @@ class AddNew extends Component {
         });
         this.refs.form.reset();
       }
+
       else {
         alert("Count cannot be zero!");
       }
@@ -54,16 +55,13 @@ class AddNew extends Component {
 
 	}
 
+
   render() {
 
     let speciesOptions = this.props.species.map(specObj => {
       return <option key={specObj.name}>{specObj.name}</option>
     });
 
-		let textAreaStyle = {
-			height: 100,
-			resize: "none"
-		};
 
     return (
 	    <div>
@@ -80,9 +78,10 @@ class AddNew extends Component {
     				<ControlLabel>Description</ControlLabel>
 						<FormControl
 							componentClass="textarea"
-							style={textAreaStyle}
-							placeholder="Give a short description"
+							style={style.textAreaStyle}
+							placeholder="Give a short description (Max 180 characters)"
     					type="text"
+							maxLength="180"
 							inputRef={(input) => this.inputDesc = input}
 							/>
   				</FormGroup>

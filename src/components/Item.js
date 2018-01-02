@@ -20,6 +20,7 @@ class Item extends Component {
         <i>Added on {timeStamp}</i>
       </ListGroupItem>
     );
+
   }
 }
 

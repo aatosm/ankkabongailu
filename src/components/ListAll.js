@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import Item from './Item';
 import { ListGroup } from 'react-bootstrap';
+import style from '../styles'
 
 class ListAll extends Component {
 
   render() {
-
-    let divStyle = {
-      height: 400,
-      border: '1px solid #e6e6e6',
-      borderRadius: '5px',
-      overflowY: 'scroll'
-    };
 
   	let items;
   	if(this.props.sightings){
@@ -25,7 +19,7 @@ class ListAll extends Component {
     return (
       <div>
         <div className="text-center"><h3>All sightings</h3></div>
-        <div style={divStyle}>
+        <div style={style.divStyle}>
           <ListGroup>
             {items}
           </ListGroup>

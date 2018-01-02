@@ -4,6 +4,7 @@ import AddNew from './components/AddNew';
 import RadioButtons from './components/RadioButtons';
 import { Grid, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import style from './styles';
 
 class App extends Component {
 
@@ -12,10 +13,27 @@ class App extends Component {
     this.state = {
       sightings: [],
       species: [],
-      selected: 0
+      selected: 0  // state of the newest/oldest filtering (0=newest, 1=oldest)
     }
     this.handleAddSighting  = this.handleAddSighting.bind(this);
     this.changeListOrder = this.changeListOrder.bind(this);
+  }
+
+
+  // Change the sightings list order after click event on filter buttons
+  changeListOrder(option){
+    let list = this.state.sightings;
+    if(option == 0){
+      list = list.sort(this.descendingOrder);
+    }
+    else {
+      list = list.sort(this.ascendingOrder);
+    }
+
+    this.setState({
+      sightings: list,
+      selected: option
+    });
   }
 
 
@@ -37,31 +55,6 @@ class App extends Component {
   }
 
 
-  sortList(data){
-    if(this.state.selected == 0){
-      return data.sort(this.descendingOrder);
-    } else {
-      return data.sort(this.ascendingOrder);
-    }
-  }
-
-
-  changeListOrder(option){
-    let list = this.state.sightings;
-    if(option == 0){
-      list = list.sort(this.descendingOrder);
-    }
-    else {
-      list = list.sort(this.ascendingOrder);
-    }
-
-    this.setState({
-      sightings: list,
-      selected: option
-    });
-  }
-
-
   loadSightingsFromServer(){
     axios.get(this.props.sightingsUrl)
       .then(res => this.sortList(res.data))
@@ -71,8 +64,15 @@ class App extends Component {
   }
 
 
+  // Change the sightings list order to descending when the page loads
+  sortList(data){
+    return data.sort(this.descendingOrder);
+  }
+
+
   componentDidMount(){
     this.loadSightingsFromServer();
+    // load also species-array and save into state
     axios.get(this.props.speciesUrl)
       .then(res =>
         this.setState({
@@ -85,21 +85,16 @@ class App extends Component {
   handleAddSighting(sighting){
     axios.post(this.props.sightingsUrl, sighting)
       .then(res => this.loadSightingsFromServer())
-
   }
 
 
   render() {
 
-    let headerStyle = {
-      color: "#EF5E00"
-    }
-
     return (
 
       <Grid>
         <Row className="titleRow text-center">
-          <Col md={12}><h1 style={headerStyle}>AnkkaBongailu</h1></Col>
+          <Col md={12}><h1 style={style.header}>AnkkaBongailu</h1></Col>
         </Row>
         <Row>
           <Col md={6}>
